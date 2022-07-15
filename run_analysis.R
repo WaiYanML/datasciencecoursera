@@ -34,9 +34,13 @@ load_data<- function(){
   ##combining to a single dataset
   proj_data<-cbind(subj,activity,x)
   
+  #group the data by subject and activity
   grouped_data<-group_by(proj_data,subject, activity)
+  #find average of each variable for each subject and each activity
   summ_data<-summarise(grouped_data,value=colMeans(grouped_data[,3:68]),ind=1:66)
+  #assigning variable names
   summ_data$ind<-colnames(proj_data)[3:68][summ_data$ind]
+  #spreading data
   tidy_data<-spread(summ_data,ind, value)
   tidy_data<-select(tidy_data,subject,everything())
 
